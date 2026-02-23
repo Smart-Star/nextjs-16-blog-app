@@ -11,7 +11,7 @@ import { Separator } from "@/components/ui/separator";
 import { buttonVariants } from "@/components/ui/button";
 import { fetchQuery, preloadQuery } from "convex/nextjs";
 import CommentSection from "@/components/web/comment-section";
-import PostPresence from "@/components/web/post-presence";
+import { PostPresence } from "@/components/web/post-presence";
 
 type Props = {
   params: Promise<{ blogId: Id<"post"> }>;
@@ -88,9 +88,7 @@ export default async function BlogIdPage({ params }: Props) {
 
           <span className='w-0.5 h-5 bg-muted-foreground' />
 
-          {userId && post._id && (
-            <PostPresence roomId={post._id} userId={userId} />
-          )}
+          {post._id && <PostPresence roomId={post._id} />}
         </div>
       </div>
 
