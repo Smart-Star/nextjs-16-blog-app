@@ -52,7 +52,10 @@ export default function LoginPage() {
             router.push("/");
           },
           onError: (e) => {
-            toast.error(e.error.message);
+            toast.error(
+              e.error.message ?? "An error occured! Please try again."
+            );
+            console.log("login error:", e.error.message);
           },
         },
       });

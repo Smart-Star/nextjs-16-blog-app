@@ -13,13 +13,14 @@ import { Metadata } from "next";
 import { Suspense } from "react";
 import { cn } from "@/lib/utils";
 import LoadingUi from "./loading-ui";
-import { cacheLife } from "next/cache";
+// import { cacheLife } from "next/cache";
 import { fetchQuery } from "convex/nextjs";
 import { api } from "@/convex/_generated/api";
 import { buttonVariants } from "@/components/ui/button";
+import { connection } from "next/server";
 
-export const dynamic = "force-static";
-export const revalidate = 30;
+// export const dynamic = "force-static";
+// export const revalidate = 30;
 
 export const metadata: Metadata = {
   title: "Blog | next.js 16 Tutorial",
@@ -49,9 +50,10 @@ export default async function BlogPage() {
 
 async function BlogContent() {
   // await new Promise((resolve) => setTimeout(resolve, 5000));
-  // await connection();
   // "use cache";
   // cacheLife("hours");
+
+  await connection();
   const blogs = await fetchQuery(api.post.getPosts);
 
   return (
@@ -76,7 +78,7 @@ async function BlogContent() {
           <CardFooter>
             <Link
               href={`blog/${post._id}`}
-              className={cn(buttonVariants(), "w-full")}>
+              className={cn(buttonVariants(), "w-full font-medium")}>
               Read more
             </Link>
           </CardFooter>
