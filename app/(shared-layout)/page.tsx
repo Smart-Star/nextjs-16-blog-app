@@ -83,7 +83,7 @@ const RecentPosts = async () => {
 
   if (!latestBlogs.length) {
     return (
-      <p className='flex items-center gap-2 text-sm text-muted-foreground'>
+      <p className='flex items-center text-center gap-2 text-lg text-muted-foreground'>
         No posts yet.
         <Link
           href='/create'

@@ -55,7 +55,6 @@ export default function LoginPage() {
             toast.error(
               e.error.message ?? "An error occured! Please try again."
             );
-            // console.log("login error:", e.error.message);
           },
         },
       });
