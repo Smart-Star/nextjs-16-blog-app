@@ -12,6 +12,7 @@ import Link from "next/link";
 import { Metadata } from "next";
 import { cn } from "@/lib/utils";
 import { Suspense } from "react";
+import { connection } from "next/server";
 import { fetchQuery } from "convex/nextjs";
 import { api } from "@/convex/_generated/api";
 import { buttonVariants } from "@/components/ui/button";
@@ -74,7 +75,9 @@ export default function Home() {
   );
 }
 
-async function RecentPosts() {
+const RecentPosts = async () => {
+  await connection();
+
   const blogs = await fetchQuery(api.post.getPosts);
   const latestBlogs = blogs?.slice(0, 3) ?? [];
 
@@ -121,4 +124,4 @@ async function RecentPosts() {
       ))}
     </div>
   );
-}
+};
