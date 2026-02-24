@@ -41,7 +41,7 @@ export default function SearchInput() {
       </div>
 
       {open && term.length >= 2 && (
-        <div className='absolute z-50 top-full w-full mt-2 rounded-md border border-input bg-popover dark:bg-input/30 text-popover-foreground shadow-md outline-none animate-in fade-in-0 zoom-in-95'>
+        <div className='absolute z-50 top-full w-full mt-2 rounded-md border border-input bg-popover dark:bg-input/30 dark:backdrop-blur-2xl text-popover-foreground shadow-md outline-none animate-in fade-in-0 zoom-in-95'>
           {results === undefined ? (
             <div className='flex items-center justify-center p-4 text-sm text-muted-foreground'>
               <Loader2 className='my-2 size-4 animate-spin mr-2' /> Searching...
