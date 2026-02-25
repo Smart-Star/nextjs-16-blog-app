@@ -1,21 +1,11 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-
-import Image from "next/image";
 import Link from "next/link";
 import { Metadata } from "next";
 import { cn } from "@/lib/utils";
 import { Suspense } from "react";
-import { connection } from "next/server";
-import { fetchQuery } from "convex/nextjs";
-import { api } from "@/convex/_generated/api";
+import { Skeleton } from "@/components/ui/skeleton";
 import { buttonVariants } from "@/components/ui/button";
+import { RecentPosts } from "@/components/web/recent-posts";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 
 export const metadata: Metadata = {
   title: "Home | next.js 16 Tutorial",
@@ -23,9 +13,9 @@ export const metadata: Metadata = {
     "A modern blog built with Next.js 16, showcasing server components, Convex, and more.",
 };
 
-export default function Home() {
+export default async function Home() {
   return (
-    <main className='min-h-screen py-16 space-y-16'>
+    <main className='py-16 space-y-16'>
       <header className='text-center space-y-4'>
         <span className='text-sm font-semibold text-primary uppercase tracking-wide'>
           Next.js 16 blog tutorial
@@ -50,24 +40,12 @@ export default function Home() {
         </div>
       </header>
 
-      <section className='space-y-4'>
-        <div className='flex items-center justify-between gap-2'>
-          <h2 className='text-2xl font-semibold tracking-tight'>
-            Latest posts
-          </h2>
-          <Link
-            href='/blog'
-            className='text-sm font-medium text-primary hover:underline'>
-            View all
-          </Link>
-        </div>
+      <section className='space-y-6'>
+        <h2 className='text-3xl font-semibold tracking-tight text-center'>
+          Latest posts
+        </h2>
 
-        <Suspense
-          fallback={
-            <p className='text-sm text-muted-foreground'>
-              Loading latest posts...
-            </p>
-          }>
+        <Suspense fallback={<LoadingUi />}>
           <RecentPosts />
         </Suspense>
       </section>
@@ -75,53 +53,21 @@ export default function Home() {
   );
 }
 
-const RecentPosts = async () => {
-  await connection();
-
-  const blogs = await fetchQuery(api.post.getPosts);
-  const latestBlogs = blogs?.slice(0, 3) ?? [];
-
-  if (!latestBlogs.length) {
-    return (
-      <p className='flex items-center text-center gap-2 text-lg text-muted-foreground'>
-        No posts yet.
-        <Link
-          href='/create'
-          className='text-sm font-medium text-primary hover:underline'>
-          Create one now?
-        </Link>
-      </p>
-    );
-  }
-
+function LoadingUi() {
   return (
-    <div className='grid md:grid-cols-3 gap-6'>
-      {latestBlogs.map((post) => (
-        <Card key={post._id} className='pt-0 justify-between'>
-          <CardHeader className='relative h-48 w-full overflow-hidden'>
-            <Image
-              src={
-                post.imageUrl ??
-                "https://images.unsplash.com/photo-1761839271800-f44070ff0eb9?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              }
-              alt={post.title}
-              fill
-              className='rounded-t-xl object-cover'
-            />
-          </CardHeader>
+    <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-6'>
+      {[...Array(3)].map((_, i) => (
+        <Card key={i + "w"} className='pt-0'>
+          <Skeleton className='h-48 w-full rounded-t-xl rounded-b-none' />
           <CardContent className='space-y-2'>
-            <CardTitle>{post.title}</CardTitle>
-            <CardDescription>{post.body}</CardDescription>
+            <Skeleton className='h-6 w-3/5' />
+            <Skeleton className='h-4 w-4/5' />
           </CardContent>
           <CardFooter>
-            <Link
-              href={`blog/${post._id}`}
-              className={cn(buttonVariants(), "w-full font-medium")}>
-              Read more
-            </Link>
+            <Skeleton className='h-7 w-full' />
           </CardFooter>
         </Card>
       ))}
     </div>
   );
-};
+}
