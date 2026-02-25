@@ -56,6 +56,21 @@ async function BlogContent() {
   await connection();
   const blogs = await fetchQuery(api.post.getPosts);
 
+  if (!blogs.length) {
+    return (
+      <Card className='flex items-center justify-center p-12 text-center max-w-3xl mx-auto'>
+        <p className='flex items-center gap-2 text-lg text-muted-foreground'>
+          No posts yet. Click now to write your own
+          <Link
+            href='/create'
+            className='font-medium text-primary/80 hover:text-primary italic'>
+            blog article.
+          </Link>
+        </p>
+      </Card>
+    );
+  }
+
   return (
     <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-6'>
       {blogs?.map((post) => (
