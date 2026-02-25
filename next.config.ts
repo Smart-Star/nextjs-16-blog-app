@@ -14,6 +14,11 @@ const nextConfig: NextConfig = {
         protocol: "https",
         port: "",
       },
+      {
+        hostname: "wry-anaconda-338.eu-west-1.convex.cloud",
+        protocol: "https",
+        port: "",
+      },
     ],
   },
 };
